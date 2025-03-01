@@ -16,7 +16,7 @@ def add_residual_ticks(model, value_width=5, x=False, y=True):
             [tidy_label(l, value_width=value_width)
               for l in model.residual_labels], 
             family='monospace',
-            fontsize=20,
+            fontsize=10,
     )
   if x:
     plt.xticks(
@@ -25,7 +25,7 @@ def add_residual_ticks(model, value_width=5, x=False, y=True):
               for l in model.residual_labels], 
             family='monospace',
             rotation=90,
-            fontsize=20,
+            fontsize=10,
     )
 
 
@@ -46,7 +46,7 @@ def plot_computation_trace(model,
         np.arange(len(input_labels))+0.5,
         input_labels,
         rotation=90,
-        fontsize=20,
+        fontsize=10,
     )
     if add_input_layer and i == 0:
       title = 'Input'
@@ -54,7 +54,7 @@ def plot_computation_trace(model,
       layer_no = i - 1 if add_input_layer else i
       layer_type = 'Attn' if layer_no % 2 == 0 else 'MLP'
       title = f'{layer_type} {layer_no // 2 + 1}'
-    plt.title(title, fontsize=20)
+    plt.title(title, fontsize=10)
 
 
 def plot_residuals_and_input(model, inputs, figsize=(12, 9)):
