@@ -8,5 +8,5 @@ data and then predict a task.
 I didn’t add input/output pairs in purpose to check whether LLM can predict task without this
 information.
 #### Important classes
-restapi.py - api to communicate with ChatGPT O1<br>
+restapi.py - api to communicate with ChatGPT o1<br>
 tracr_models.py - class that produces files
