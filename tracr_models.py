@@ -5,7 +5,7 @@ from tracr_to_tlens import create_model_input, decode_model_output, convert_trac
 
 
 if __name__ == '__main__':
-    name_of_task = 'reverse'
+    name_of_task = 'dyck-3'
 
     examples = get_vocab(name_of_task)
     tracr_model = get_program(name_of_task)
@@ -26,6 +26,6 @@ if __name__ == '__main__':
             tracr_model.output_encoder,
             tracr_model.input_encoder.bos_token
         )
-        print("tl model output: ", decoded_output)
+        print("tl model output: ", decoded_output, end="\n\n")
 
-        save_file("patterns/parentheses.json", cache, tl_model)
+        save_file("patterns/hist.json", cache, tl_model)

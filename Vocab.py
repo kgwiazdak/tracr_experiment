@@ -25,8 +25,8 @@ def get_vocab(program_name):
                 ["BOS", "(", "{", "}", ')', ],
                 ["BOS", "[", "(", '{', "[", "]"],
             ]
-        # TODO sort_freq tl is returning wrong answears
-        case 'sort_freq' | 'hist':
+        # TODO sort_freq tl is returning wrong answers
+        case 'sort_freq':
             return [
                 ["BOS", "a", "c", "b", "c", "b"],
                 ["BOS", "c", "b", "b"],
@@ -63,9 +63,6 @@ def get_program(program_name, max_seq_len=6):
     elif program_name == "reverse":
         vocab = {1, 2, 3, 4, 5}
         program = make_reverse_program()
-    elif program_name == "hist":
-        vocab = {"a", "b", "c", "d"}
-        program = lib.make_hist()
     elif program_name == "sort_freq":
         vocab = {"a", "b", "c", "d"}
         program = lib.make_sort_freq(max_seq_len=max_seq_len)

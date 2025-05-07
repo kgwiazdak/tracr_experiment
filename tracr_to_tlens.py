@@ -44,7 +44,7 @@ def extract_state_dict(model, d_model, d_vocab_out, n_heads, d_head, n_layers):
     sd = {}
     sd["pos_embed.W_pos"] = model.params["pos_embed"]['embeddings']
     sd["embed.W_E"] = model.params["token_embed"]['embeddings']
-    sd["unembed.W_U"] = np.eye(d_model, d_vocab_out)
+    sd["unembed.W_U"] = model.params["token_embed"]['embeddings'][2:,:].T
 
     for l in range(n_layers):
         sd[f"blocks.{l}.attn.W_K"] = einops.rearrange(
@@ -151,28 +151,19 @@ def plot_residual_stream(cache, input_sequence):
 # %%
 
 if __name__ == "__main__":
-    from tracr_models import compile_reverse_model
-    """
-    Demonstrates analyzing a Tracr model that reverses sequences using TransformerLens.
-    
-    Example:
-        Input: [BOS, 1, 2, 3]
-        Output: [BOS, 3, 2, 1]
-    """
-    tracr_model = compile_reverse_model(
-        max_seq_len=5,
-        vocab={1, 2, 3, 4, 5},
-    )
+    from tracr_models import get_program, get_vocab
+    name_of_task = "sort_freq"
+    tracr_model = get_program(name_of_task)
+    examples = get_vocab(name_of_task)
+    input_seq = next(iter(examples))
     
     tl_model = convert_tracr_to_tl(tracr_model)
-    
-    input_seq = ["BOS", 1, 3, 3, 1, 5]
     
     tracr_output = tracr_model.apply(input_seq)
     print(f"Tracr output: {tracr_output.decoded}")
     
     input_tokens = create_model_input(
-        input_seq, 
+        input_seq,
         tracr_model.input_encoder
     )
     logits, cache = tl_model.run_with_cache(input_tokens)
@@ -182,11 +173,9 @@ if __name__ == "__main__":
         tracr_model.input_encoder.bos_token
     )
     print(f"TransformerLens output: {tl_output}")
-    
-    # print("\nVerifying layer outputs match between models:")
-    # verify_layer_outputs(tl_model, tracr_output, cache)
-    
-    # print("\nVisualizing final residual stream:")
-    # plot_residual_stream(cache, input_seq)
+    if tracr_output.decoded == tl_output:
+        print("Final outputs match.")
+    else:
+        print("Final outputs do not match.")
     
 # %%
